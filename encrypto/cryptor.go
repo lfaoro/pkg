@@ -6,6 +6,6 @@ package encrypto
 
 // Cryptor defines the methods for encryption and decryption of data.
 type Cryptor interface {
-	Encrypt(plainText []byte) (cipherText string, err error)
+	Encrypt(plainText []byte) (cipherText []byte, err error)
 	Decrypt(cipherText []byte) (plainText []byte, err error)
 }
