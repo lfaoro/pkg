@@ -13,9 +13,10 @@ import (
 	"encoding/base64"
 	"io"
 
-	"github.com/vlct-io/pkg/encrypto"
 
 	"github.com/pkg/errors"
+
+	"github.com/lfaoro/pkg/encrypto"
 )
 
 // aesgcm mplements the Encrypt/Decrypt methods

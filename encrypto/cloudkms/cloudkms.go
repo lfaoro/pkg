@@ -21,8 +21,8 @@ import (
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/cloudkms/v1"
 
-	"github.com/vlct-io/pkg/encrypto"
-	"github.com/vlct-io/pkg/logger"
+	"github.com/lfaoro/pkg/encrypto"
+	"github.com/lfaoro/pkg/logger"
 )
 
 // Assumes you have the "GOOGLE_APPLICATION_CREDENTIALS" environment
