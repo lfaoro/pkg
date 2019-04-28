@@ -48,6 +48,7 @@ type cloudKMS struct {
 
 // validate interface conformity.
 var _ encrypto.Cryptor = cloudKMS{}
+
 var log = logger.New("[crypter] ", nil)
 
 // New makes a crypto.Cryptor.
@@ -74,7 +75,7 @@ func New(projectID, locationID, keyRingID, cryptoKeyID string) encrypto.Cryptor 
 }
 
 // Encrypt attempts to successfully encrypt the plainText.
-func (kms cloudKMS) Encrypt(plainText []byte) (string, error) {
+func (kms cloudKMS) Encrypt(plainText []byte) ([]byte, error) {
 	parentName := fmt.Sprintf("projects/%s/locations/%s/keyRings/%s/cryptoKeys/%s",
 		kms.ProjectID, kms.LocationID, kms.KeyRingID, kms.CryptoKeyID)
 
@@ -83,9 +84,9 @@ func (kms cloudKMS) Encrypt(plainText []byte) (string, error) {
 	}
 	res, err := kms.service.Projects.Locations.KeyRings.CryptoKeys.Encrypt(parentName, req).Do()
 	if err != nil {
-		return "", err
+		return []byte{}, err
 	}
-	return res.Ciphertext, nil
+	return []byte(res.Ciphertext), nil
 }
 
 // Decrypt attempts to successfully decrypt the cipherText.
