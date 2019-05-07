@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package aesgcm implement AES encryption with GCM authentication according
+// Package AESGCM implement AES encryption with GCM authentication according
 // to the paper at ref: https://eprint.iacr.org/2015/102.pdf
 package aesgcm
 
@@ -17,38 +17,38 @@ import (
 	"github.com/lfaoro/pkg/encrypto"
 )
 
-// aesgcm mplements the Encrypt/Decrypt methods
+// AESGCM mplements the Encrypt/Decrypt methods
 // using AES-GCM: https://eprint.iacr.org/2015/102.pdf
-type aesgcm struct {
+type AESGCM struct {
 	// either 16, 24, or 32 bytes to select AES-128, AES-192, or AES-256.
 	cipher cipher.Block
 }
 
 // validate interface conformity.
-var _ encrypto.Cryptor = aesgcm{}
+var _ encrypto.Cryptor = &AESGCM{}
 
 // New makes a new AES/GCM Cryptor.
 //
 // The key argument should be the AES key,
 // either 16, 24, or 32 bytes to select
 // AES-128, AES-192, or AES-256.
-func New(key string) (encrypto.Cryptor, error) {
+func New(key string) (*AESGCM, error) {
 	switch len(key) {
 	default:
-		return aesgcm{}, errors.Errorf("aesgcm: key size invalid %d", len(key))
+		return nil, errors.Errorf("AESGCM: key size invalid %d", len(key))
 	case 16, 24, 32:
 	}
 	_key := []byte(key)
 	_cipher, err := aes.NewCipher(_key)
 	if err != nil {
-		return aesgcm{}, errors.Wrap(err, "aesgcm: unable to create a new cipher")
+		return nil, errors.Wrap(err, "AESGCM: unable to create a new cipher")
 	}
-	return aesgcm{cipher: _cipher,}, nil
+	return &AESGCM{cipher: _cipher}, nil
 }
 
 // Encrypt ciphers the plainText using the provided 16, 24 or 32 bytes key
 // with AES/GCM and returns a base64 encoded string.
-func (ag aesgcm) Encrypt(plainText []byte) (cypherText []byte, err error) {
+func (ag *AESGCM) Encrypt(plainText []byte) (cypherText []byte, err error) {
 	gcm, err := cipher.NewGCM(ag.cipher)
 	if err != nil {
 		return []byte{}, errors.Wrap(err, "unable to wrap cipher in GCM")
@@ -63,7 +63,7 @@ func (ag aesgcm) Encrypt(plainText []byte) (cypherText []byte, err error) {
 
 // Decrypt deciphers the provided base64 encoded and AES/GCM ciphered
 // data returning the original plainText string.
-func (ag aesgcm) Decrypt(cipherText []byte) (plainText []byte, err error) {
+func (ag *AESGCM) Decrypt(cipherText []byte) (plainText []byte, err error) {
 	gcm, err := cipher.NewGCM(ag.cipher)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to wrap cipher in GCM")
