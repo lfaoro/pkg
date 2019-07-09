@@ -7,6 +7,7 @@ package encrypto
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"io"
 )
 
 // Cryptographically secure pseudo-random number generator (CSPRNG)
@@ -28,13 +29,13 @@ import (
 //
 // In the rare case you get an error there's something seriously
 // wrong with your operating system.
-func RandomBytes(n int) ([]byte, error) {
+func RandomBytes(n int) []byte {
 	b := make([]byte, n)
 	_, err := rand.Read(b[:])
 	if err != nil {
-		return nil, err // out of randomness, should never happen
+		panic(err) // out of randomness, should never happen
 	}
-	return b, nil
+	return b
 }
 
 // RandomString returns a URL-safe, base64 encoded
@@ -43,7 +44,19 @@ func RandomBytes(n int) ([]byte, error) {
 // It will return an error if the system's secure random
 // number generator fails to function correctly, in which
 // case the caller should not continue.
-func RandomString(s int) (string, error) {
-	b, err := RandomBytes(s + 1)
-	return base64.URLEncoding.EncodeToString(b)[:len(b)-1], err
+func RandomString(s int) string {
+	b := RandomBytes(s + 1)
+	// uuid.NewV4()
+	return base64.URLEncoding.EncodeToString(b)[:len(b)-1]
+}
+
+// NewEncryptionKey generates a random 256-bit key for Encrypt() and
+// Decrypt(). It panics if the source of randomness fails.
+func NewEncryptionKey() *[32]byte {
+	key := [32]byte{}
+	_, err := io.ReadFull(rand.Reader, key[:])
+	if err != nil {
+		panic(err)
+	}
+	return &key
 }
