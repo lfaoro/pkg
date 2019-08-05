@@ -20,9 +20,17 @@ type Log struct {
 }
 
 // New returns an initialized Log with defaults setup.
-func New(prefix string, errorClient *errorreporting.Client) *Log {
+func New(prefix string) *Log {
 	return &Log{
 		log.New(os.Stdout, prefix+" ", log.Lshortfile),
-		errorClient,
+		nil,
+	}
+}
+
+// New returns an initialized Log with defaults setup.
+func NewWithReporting(prefix string, gcpReporting *errorreporting.Client) *Log {
+	return &Log{
+		log.New(os.Stdout, prefix+" ", log.Lshortfile),
+		gcpReporting,
 	}
 }

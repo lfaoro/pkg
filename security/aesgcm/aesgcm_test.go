@@ -8,14 +8,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/lfaoro/pkg/encrypto"
-	"github.com/lfaoro/pkg/encrypto/aesgcm"
+	"github.com/lfaoro/pkg/security"
+	"github.com/lfaoro/pkg/security/aesgcm"
 )
 
 var plainText = []byte("hello world")
 
 func TestAesgcm(t *testing.T) {
-	key := encrypto.NewEncryptionKey()
+	key := security.NewEncryptionKey()
 
 	aes, err := aesgcm.New(key)
 	assert.Nil(t, err)

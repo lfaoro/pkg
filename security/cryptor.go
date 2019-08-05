@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package encrypto
+package security
 
 // Cryptor defines the methods for encryption and decryption of data.
 type Cryptor interface {

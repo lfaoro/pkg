@@ -14,7 +14,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/lfaoro/pkg/encrypto"
+	"github.com/lfaoro/pkg/security"
 )
 
 // AESGCM implements the Encrypt/Decrypt methods
@@ -24,7 +24,7 @@ type AESGCM struct {
 }
 
 // validate interface conformity.
-var _ encrypto.Cryptor = &AESGCM{}
+var _ security.Cryptor = &AESGCM{}
 
 // New makes a new AES/GCM Cryptor. In order to select AES-256, a 32-byte key
 // is enforced.

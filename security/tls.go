@@ -2,15 +2,21 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package encrypto
+package security
 
-import "crypto/tls"
+import (
+	"crypto/tls"
+)
 
+// DefaultTLSConfig returns a tls.Config with enhanced security.
+//
+// The TLS security configuration respects PCI DSS requirements.
 func DefaultTLSConfig() *tls.Config {
 	return &tls.Config{
 		// Avoids most of the memorably-named TLS attacks
 		MinVersion: tls.VersionTLS12,
 		MaxVersion: tls.VersionTLS13, // Go 1.12 only
+
 		// Causes servers to use Go's default cipher suite preferences,
 		// which are tuned to avoid attacks. Does nothing on clients.
 		PreferServerCipherSuites: true,

@@ -46,5 +46,5 @@ func (log *Log) ReportIfErr(err error, user string, req *http.Request) {
 		User:  user,
 		Req:   req,
 	})
-	log.Printf("reported error: %v", err)
+	log.LogIfErr(err)
 }

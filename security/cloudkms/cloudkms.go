@@ -21,8 +21,8 @@ import (
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/cloudkms/v1"
 
-	"github.com/lfaoro/pkg/encrypto"
 	"github.com/lfaoro/pkg/logger"
+	"github.com/lfaoro/pkg/security"
 )
 
 // Assumes you have the "GOOGLE_APPLICATION_CREDENTIALS" environment
@@ -47,12 +47,12 @@ type cloudKMS struct {
 }
 
 // validate interface conformity.
-var _ encrypto.Cryptor = cloudKMS{}
+var _ security.Cryptor = cloudKMS{}
 
-var log = logger.New("[crypter] ", nil)
+var log = logger.New("[crypter] ")
 
 // New makes a crypto.Cryptor.
-func New(projectID, locationID, keyRingID, cryptoKeyID string) encrypto.Cryptor {
+func New(projectID, locationID, keyRingID, cryptoKeyID string) security.Cryptor {
 	ctx := context.Background()
 	authedClient, err := google.DefaultClient(ctx, cloudkms.CloudPlatformScope)
 	if err != nil {
