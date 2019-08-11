@@ -18,7 +18,7 @@ func TestHash(t *testing.T) {
 }
 
 func BenchmarkHash32(b *testing.B) {
-	data, _ := RandomString(32)
+	data := RandomString(32)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = Hash([]byte(data))
@@ -26,7 +26,7 @@ func BenchmarkHash32(b *testing.B) {
 }
 
 func BenchmarkHash64(b *testing.B) {
-	data, _ := RandomString(64)
+	data := RandomString(64)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = Hash([]byte(data))
