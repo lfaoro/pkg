@@ -22,5 +22,5 @@ func TestNewToken(t *testing.T) {
 	t.Log("token:", tok)
 
 	ttok := NewToken(tlen, true)
-	assert.Contains(t, ttok, "test_tok_", nil)
+	assert.Contains(t, ttok, "tok_test_", nil)
 }
